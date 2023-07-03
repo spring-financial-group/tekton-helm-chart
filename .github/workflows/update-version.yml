@@ -18,7 +18,7 @@ jobs:
       - name: Check if update is available
         id: update
         run: |
-          CURRENT_VERSION=$(grep -E "^version:" charts/jenkins/Chart.yaml | awk '{print $2}')
+          CURRENT_VERSION=$(grep -E "^version:" charts/tekton-pipeline/Chart.yaml | awk '{print $2}')
           if [ "${CURRENT_VERSION}" = "${{ steps.lts.outputs.jenkins_version }}" ]; then
             echo "available=false" >> "${GITHUB_OUTPUT}"
           else
