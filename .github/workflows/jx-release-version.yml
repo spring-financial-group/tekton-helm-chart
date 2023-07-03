@@ -5,12 +5,12 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - name: check source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GIT_BOT_TOKEN }}
-      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+  #    - name: check source code
+   #     uses: actions/checkout@v2
+    #    with:
+     #     fetch-depth: 0
+      #    token: ${{ secrets.GIT_BOT_TOKEN }}
+      #- run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
       - name: next release version
         id: nextversion
