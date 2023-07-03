@@ -38,6 +38,7 @@ endif
 	jx gitops split -d ${CHART_DIR}/templates
 	jx gitops rename -d ${CHART_DIR}/templates
 	cp src/templates/* ${CHART_DIR}/templates
+	jx version next ${CHART_DIR}
 ifneq ($(CHART_VERSION),latest)
 	sed -i.bak "s/^appVersion:.*/appVersion: ${CHART_VERSION}/" ${CHART_DIR}/Chart.yaml
 endif
@@ -59,7 +60,7 @@ delete:
 clean:
 
 release: clean
-	sed -i -e "s/version:.*/version: $(VERSION)/" Chart.yaml
+	sed -i -e "s/version:.*/version: $(VERSION)/" charts/tekton-pipeline/Chart.yaml
 
 	helm dependency build
 	helm lint
