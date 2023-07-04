@@ -25,7 +25,7 @@ jobs:
       - uses: oleksiyrudenko/gha-git-credentials@v2-latest
         if: ${{ steps.updatechart.outputs.available == 'true' }}
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
+          token: ${{ secrets.ACCESS_TOKEN }}
       - run: |
           git add -A
           git commit -m "chore: update chart version"
