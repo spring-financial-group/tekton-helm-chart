@@ -21,8 +21,9 @@ jobs:
         if: ${{ steps.nextversion.outputs.available == 'true' }}
         with:
           cmd: yq eval '.version = "${{ steps.nextversion.outputs.version }}"' -i charts/tekton-pipeline/Chart.yaml
-        
-      - uses: oleksiyrudenko/gha-git-credentials@v2-latest
+       
+      - name: Commit Changes 
+        uses: oleksiyrudenko/gha-git-credentials@v2-latest
       #  if: ${{ steps.updatechart.outputs.available == 'true' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
