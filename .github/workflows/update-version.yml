@@ -1,7 +1,6 @@
 name: Increment Chart Version
 
 on: pull_request
-
 jobs:
   build:
     runs-on: ubuntu-20.04
