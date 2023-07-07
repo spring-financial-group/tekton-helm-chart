@@ -1,0 +1,42 @@
+name: Helm Publish
+
+on:
+  pull_request:
+    types: [ closed ]
+    branches:
+      - main
+  pull_request_target:
+    types: [ closed ]
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: check source code
+        if: github.event.pull_request.merged
+        uses: actions/checkout@v3
+
+      - name: next release version
+        id: nextversion
+        if: github.event.pull_request.merged
+        uses: jenkins-x-plugins/jx-release-version@v2.6.11
+        with:
+          previous-version: from-file:charts/tekton-pipeline/Chart.yaml
+
+      - name: Update version in Chart.yaml
+        id: updatechart
+        if: github.event.pull_request.merged
+        uses: mikefarah/yq@v4.34.1
+        with:
+          cmd: yq eval '.version = "${{ steps.nextversion.outputs.version }}"' -i charts/tekton-pipeline/Chart.yaml
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        if: github.event.pull_request.merged
+        with:
+          commit_message: 'chore: update Chart.yaml'
