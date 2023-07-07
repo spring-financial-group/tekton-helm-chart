@@ -1,14 +1,13 @@
-name: Helm Publish
+name: Increment Version
 
 on:
+  push:
+    paths:
+      - main
   pull_request:
-    types: [ closed ]
-    branches:
+    paths:
       - main
   pull_request_target:
-    types: [ closed ]
-    branches:
-      - main
 
 jobs:
   build:
