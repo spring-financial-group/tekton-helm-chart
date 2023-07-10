@@ -21,6 +21,7 @@ If you are creating a template to be used in Jenkins X version, you can run the 
 make fetch
 ```
 
+
 This will fetch the latest version.
 To fetch a specific version (say 0.32.0), use CHART_VERSION
 
