@@ -2,10 +2,7 @@ name: Increment Version
 
 on:
   push:
-    paths:
-      - main
-  pull_request:
-    paths:
+    branches:
       - main
   pull_request_target:
 
