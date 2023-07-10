@@ -2,12 +2,8 @@ name: Increment Version
 
 on:
   push:
-    paths:
+    branches:
       - main
-  pull_request:
-    paths:
-      - main
-  pull_request_target:
 
 jobs:
   build:
