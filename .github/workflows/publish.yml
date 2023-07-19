@@ -15,7 +15,7 @@ jobs:
       - name: Read Helm Chart
         uses: jacobtomlinson/gha-read-helm-chart@master
         with:
-          path: charts/tekton-pipeline/Chart.yaml
+          path: charts/tekton-pipeline
       - name: Print Out Chart Version
         run: |
           echo "Version - ${{ steps.chart.outputs.version }}"
