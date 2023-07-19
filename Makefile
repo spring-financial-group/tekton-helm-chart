@@ -1,6 +1,7 @@
 NAME := tekton-pipeline
 CHART_DIR := charts/${NAME}
 CHART_VERSION ?= latest
+RELEASE_VERSION := $(shell jx-release-version -previous-version=from-file:charts/tekton-pipeline/Chart.yaml)
 
 CHART_REPO := gs://jenkinsxio/charts
 
@@ -33,6 +34,8 @@ endif
 	yq -i '.controller.deployment.image = load("$(CHART_DIR)/templates/tekton-pipelines-controller-deploy.yaml").spec.template.spec.containers[].image' $(CHART_DIR)/values.yaml
 	# Remove the image value, so that end users can customize the image
 	yq -i '.spec.template.spec.containers[].image = null' $(CHART_DIR)/templates/tekton-pipelines-controller-deploy.yaml
+	# Remove duplicated node affinity
+	find $(CHART_DIR)/templates -type f -name "*deploy.yaml" -exec yq -i eval 'del(.spec.template.spec.affinity.nodeAffinity)' "{}" \;
 	# kustomize the resources to include some helm template blocs
 	kustomize build ${CHART_DIR} | sed '/helmTemplateRemoveMe/d' > ${CHART_DIR}/templates/resource.yaml
 	jx gitops split -d ${CHART_DIR}/templates
@@ -59,8 +62,8 @@ delete:
 clean:
 
 release: clean
-	sed -i -e "s/version:.*/version: $(VERSION)/" Chart.yaml
-
+	# Increment Chart.yaml version for minor changes to helm chart
+	yq eval '.version = "$(RELEASE_VERSION)"' -i charts/tekton-pipeline/Chart.yaml
 	helm dependency build
 	helm lint
 	helm package .
