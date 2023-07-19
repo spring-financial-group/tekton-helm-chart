@@ -17,12 +17,13 @@ jobs:
         with:
           path: charts/tekton-pipeline
       - name: Print Out Chart Version
-        run: echo "chart_version= ${{ steps.chart.outputs.version }}" >> "GITHUB_ENV"
+        run: echo "chart_version=${{ steps.chart.outputs.version }}" >> "$GITHUB_ENV"
       - name: use env
         run: |
             echo "${{ env.chart_version }}"
       
       - uses: J12934/helm-gh-pages-action@master
+        if: 
         with:
           charts-folder: "charts"
           deploy-branch: "gh-pages"
