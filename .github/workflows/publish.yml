@@ -26,7 +26,7 @@ jobs:
         shell: bash
       
       - uses: J12934/helm-gh-pages-action@master
-        if: 
+        if: ${{steps.check.output.status}}
         with:
           charts-folder: "charts"
           deploy-branch: "gh-pages"
