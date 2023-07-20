@@ -14,9 +14,12 @@ jobs:
         
       - name: Check Changes
         id: check
+        env:
+          status_ok: 'OK: Changes detected.'
         run: |
           if [[ `git status --porcelain | grep charts/tekton-pipeline/Chart.yaml` ]]; then
-            echo "OK: Changes detected."
+            echo "Output: ${{env.status_ok}}
+            echo "status=${{env.status_ok}}" >> $GITHUB_OUTPUT
           else
           echo "WARNING: No changes were detected."
           fi
