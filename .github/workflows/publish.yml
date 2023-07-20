@@ -21,7 +21,7 @@ jobs:
             echo "Output: ${{env.status_ok}}
             echo "status=${{env.status_ok}}" >> $GITHUB_OUTPUT
           else
-          echo "WARNING: No changes were detected."
+            echo "WARNING: No changes were detected."
           fi
         shell: bash
       
