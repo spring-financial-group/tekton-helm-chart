@@ -12,16 +12,18 @@ jobs:
       - name: check source code
         uses: actions/checkout@v3
         
-      - name: Read Helm Chart
-        id: chart
-        uses: jacobtomlinson/gha-read-helm-chart@master
-        with:
-          path: charts/tekton-pipeline
-      - name: Print Out Chart Version
-        run: echo "chart_version=${{ steps.chart.outputs.version }}" >> "$GITHUB_ENV"
-      - name: use env
+      - name: Check Changes
+        id: check
+        env:
+          status_ok: 'OK: Changes detected.'
         run: |
-            echo "${{ env.chart_version }}"
+          if [[ `git status --porcelain | grep charts/tekton-pipeline/Chart.yaml` ]]; then
+            echo "Output: ${{env.status_ok}}
+            echo "status=${{env.status_ok}}" >> $GITHUB_OUTPUT
+          else
+          echo "WARNING: No changes were detected."
+          fi
+        shell: bash
       
       - uses: J12934/helm-gh-pages-action@master
         if: 
