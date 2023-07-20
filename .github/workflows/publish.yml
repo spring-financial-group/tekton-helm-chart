@@ -17,7 +17,7 @@ jobs:
         env:
           status_ok: 'OK: Changes detected.'
         run: |
-          if [[ `git status | grep charts/tekton-pipeline/Chart.yaml` ]]; then
+          if [[ git status | grep charts/tekton-pipeline/Chart.yaml ]]; then
             echo "Output: ${{env.status_ok}}"
             echo "status=${{env.status_ok}}" >> $GITHUB_OUTPUT
           else
